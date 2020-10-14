@@ -112,12 +112,21 @@ public class Matriz_3d_Vector {
         //Cambiamos el valor del vector
         vector[position - 1] = value;
 
-        int update_col = position / row;
-        int update_row = position % row;
-        int update_prof = position / (col * row);
+        int update_prof = (position - 1) / (vector.length / prof);
+        int update_row = 0;
+        int update_col = 0;
 
-        //Cambiamos el valor de la matriz
-        matrix_3d[update_col][update_row - 1][update_prof - 1] = value;
+        if (update_prof != 0) {
+            //Calculamos las posiciones en la Z correspondiente
+            update_row = ((position - 1) - (vector.length / prof) * update_prof) / col;
+            update_col = ((position - 1) - (vector.length / prof) * update_prof) % col;
+        } else {
+            //Calculamos las posiciones en la Z 0
+            update_row = (position - 1) / col;
+            update_col = (position - 1) % col;
+        }
+
+        matrix_3d[update_row][update_col][update_prof] = value;
 
         return vector;
     }
