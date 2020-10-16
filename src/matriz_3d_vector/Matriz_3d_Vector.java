@@ -27,7 +27,8 @@ public class Matriz_3d_Vector {
         int row = (int) (Math.random() * 4) + 2;
         int prof = (int) (Math.random() * 3) + 2;
 
-        int option = 1;
+        System.out.println("Elige si quieres editar un vector(1) o una matriz(2)");
+        int option = input.nextInt();
 
         if (option == 1) {
 
@@ -47,7 +48,6 @@ public class Matriz_3d_Vector {
 
         if (option == 1) {
 
-//            System.out.println("Modificar valor del vector: ");
             System.out.print("Elige la posicion a modificar: ");
             int position = input.nextInt();
 
@@ -58,6 +58,22 @@ public class Matriz_3d_Vector {
             show_vector(vector);
             show_matrix(matrix_3d);
 
+        } else if (option == 2) {
+            System.out.print("Elige la posicion de la columna: ");
+            int col_pos = input.nextInt();
+
+            System.out.print("Elige la posicion de la fila: ");
+            int row_pos = input.nextInt();
+
+            System.out.print("Elige la posicion de la Z: ");
+            int prof_pos = input.nextInt();
+
+            System.out.print("Elige el valor nuevo: ");
+            int value = input.nextInt();
+
+            update_matrix(col, row, prof, col_pos, row_pos, prof_pos, value, vector, matrix_3d);
+            show_matrix(matrix_3d);
+            show_vector(vector);
         }
 
     }
@@ -153,7 +169,7 @@ public class Matriz_3d_Vector {
         int col = matrix_3d[0].length;
         int row = matrix_3d.length;
 
-        System.out.println("Matriz de: " + row + "x" + col + "x" + prof + "\n");
+        System.out.println("Matriz de: " + col + "x" + row + "x" + prof + "\n");
 
         for (int z = 0; z < prof; z++) {
 
@@ -184,11 +200,27 @@ public class Matriz_3d_Vector {
                 for (int y = 0; y < col; y++) {
 
                     vector[index++] = (int) matrix_3d[x][y][z];
-                    matrix_3d[x][y][z] = (int) (Math.random() * 9) + 1;
                 }
             }
         }
 
         return vector;
+    }
+
+    public static int[][][] update_matrix(int col, int row, int prof, int col_pos,
+            int row_pos, int prof_pos, int value, int[] vector, int[][][] matrix_3d) {
+
+        //Cambiamos el valor en la matrix
+        matrix_3d[row_pos - 1][col_pos - 1][prof_pos - 1] = value;
+
+        //Calculamos la cantidad de posiciones y en cual profundidad esta
+        int before_col = col * (row_pos - 1);
+        int prof_correction = (col * row) * (prof_pos - 1);
+
+        //Hacemos el cambio
+        vector[(before_col + col_pos) + prof_correction - 1] = value;
+
+        System.out.println("");
+        return matrix_3d;
     }
 }
